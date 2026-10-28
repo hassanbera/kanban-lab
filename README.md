@@ -64,7 +64,7 @@ scripts/build.mjs       # bütünleşik üretim derlemesi
 scripts/serve.mjs       # yerel statik önizleme
 ```
 
-Tek npm workspace kilidi kullanılır. Alt uygulamaların eski Site kimlikleri, Git geçmişleri, bağımlılık klasörleri ve derleme çıktıları taşınmamıştır. Ortak menü stili derleme başında uygulamaların public klasörlerine kopyalanır. Üretim çıktıları Git'e eklenmez. GitHub Actions üç uygulamayı temiz kurulumdan derler ve birleşik çıktıyı artifact olarak saklar.
+Tek npm workspace kilidi kullanılır. Alt uygulamaların eski Site kimlikleri, Git geçmişleri, bağımlılık klasörleri ve derleme çıktıları taşınmamıştır. Ortak menü stili derleme başında uygulamaların public klasörlerine kopyalanır. Üretim çıktıları Git'e eklenmez. İsteğe bağlı GitHub Actions tanımı `docs/ci.example.yml` içindedir. Workflow henüz etkin değildir; yeterli GitHub workflow yazma yetkisiyle `.github/workflows/ci.yml` yoluna taşındığında üç uygulamayı temiz kurulumdan derler ve birleşik çıktıyı artifact olarak saklar.
 
 ## Veriler ve backend
 
