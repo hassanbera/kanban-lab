@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f7f3" />
+    <meta
+      name="description"
+      content="Fikirlerine alan aç. Mova ile görevlerini planla, önceliklendir ve tamamla. Herkes için özenle tasarlanmış kişisel Kanban."
+    />
+    <title>Mova — Fikirlerine alan aç</title>
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+    <link rel="stylesheet" href="./assets/showcase-switcher.css" />
+  </head>
+  <body>
+    <nav class="showcase-switcher" aria-label="Proje değiştir">
+      <a class="showcase-home" href="../" aria-label="Tüm projelere dön"
+        >↖ <span>Tüm projeler</span></a
+      ><span class="showcase-separator"></span
+      ><a href="../mova/" class="showcase-mova" aria-current="page">Mova</a
+      ><a href="../rota/" class="showcase-rota">Rota</a
+      ><a href="../katman/" class="showcase-katman">Katman</a>
+    </nav>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Ana gezinme">
+        <a class="brand" href="./" aria-label="Mova ana sayfa"
+          ><span class="brand-mark">m</span>mova<span class="brand-dot"
+            >®</span
+          ></a
+        >
+        <button class="workspace" id="workspace-info">
+          <span class="workspace-icon">B</span
+          ><span
+            ><strong>Benim alanım</strong
+            ><small>Kişisel çalışma alanı</small></span
+          ><span class="workspace-chevron">⌄</span>
+        </button>
+        <div class="nav-caption">ÇALIŞMA ALANI</div>
+        <nav class="primary-nav">
+          <button class="nav-item active" id="all-tasks">
+            <span data-icon="grid"></span>Panolarım<span
+              class="nav-count"
+              id="board-count"
+              >2</span
+            ></button
+          ><button class="nav-item" id="my-tasks">
+            <span data-icon="check-circle"></span>Bana atananlar
+          </button>
+        </nav>
+        <div class="nav-caption boards-heading">
+          PANOLAR
+          <button
+            class="icon-button"
+            id="add-board"
+            aria-label="Yeni pano oluştur"
+          >
+            <span data-icon="plus"></span>
+          </button>
+        </div>
+        <nav id="board-nav" class="board-nav" aria-label="Panolar"></nav>
+        <button class="new-board" id="new-board">
+          <span data-icon="plus"></span>Yeni pano oluştur
+        </button>
+        <div class="sidebar-bottom">
+          <div class="little-note">
+            <span class="note-spark">✳</span
+            ><strong>Büyük işler,<br />küçük adımlarla.</strong>
+            <p>Bugün bir fikre yer aç.</p>
+            <span class="note-decoration">↗</span>
+          </div>
+          <button class="nav-item" id="help">
+            <span data-icon="help"></span>Kısa bir tur</button
+          ><button class="nav-item" id="theme-toggle">
+            <span data-icon="moon"></span
+            ><span id="theme-label">Koyu görünüm</span>
+          </button>
+          <div class="profile">
+            <span class="avatar self">S</span
+            ><span
+              ><strong>Senin çalışma alanın</strong
+              ><small
+                ><span class="online-dot"></span> Bu tarayıcıda kayıtlı</small
+              ></span
+            >
+          </div>
+        </div>
+      </aside>
+      <div class="sidebar-scrim" id="sidebar-scrim"></div>
+      <main>
+        <header class="topbar">
+          <div class="breadcrumb">
+            <button
+              class="icon-button mobile-menu"
+              id="mobile-menu"
+              aria-label="Menüyü aç"
+            >
+              <span data-icon="menu"></span></button
+            ><span data-icon="home"></span><span>Çalışma alanı</span
+            ><span class="slash">/</span
+            ><strong id="breadcrumb-board">Studio lansmanı</strong>
+          </div>
+          <div class="top-actions">
+            <span class="local-label"
+              ><span class="online-dot"></span
+              ><span id="save-status">Değişiklikler kayıtlı</span></span
+            ><button
+              class="icon-button"
+              id="export-data"
+              aria-label="Çalışma alanını JSON olarak indir"
+              title="Çalışma alanını indir"
+            >
+              <span data-icon="download"></span></button
+            ><span class="avatar self top-avatar">S</span>
+          </div>
+        </header>
+        <section class="board-intro">
+          <div class="intro-eyebrow">
+            <span class="eyebrow-line"></span>FİKİRLER HAREKETE GEÇSİN
+          </div>
+          <div class="title-row">
+            <div>
+              <h1 id="board-title">
+                Studio lansmanı<span class="title-dot">.</span>
+              </h1>
+              <p id="board-description">
+                Bir fikri, birlikte güzel bir şeye dönüştürelim.
+              </p>
+            </div>
+            <button class="button primary" id="new-task">
+              <span data-icon="plus"></span>Yeni görev<span class="key-hint"
+                >N</span
+              >
+            </button>
+          </div>
+          <div class="board-meta">
+            <span class="meta-chip"
+              ><span data-icon="lock"></span>Kişisel pano</span
+            ><span class="meta-divider"></span
+            ><span id="task-total">12 görev</span
+            ><span class="meta-divider"></span
+            ><span class="progress-text"
+              ><span class="mini-progress"><i id="progress-bar"></i></span
+              ><span id="progress-label">%25 tamamlandı</span></span
+            ><button
+              class="board-settings"
+              id="board-settings"
+              aria-label="Pano ayarlarını aç"
+            >
+              <span data-icon="settings"></span>Pano ayarları
+            </button>
+          </div>
+        </section>
+        <section class="toolbar" aria-label="Pano araçları">
+          <div class="view-tabs" role="group" aria-label="Görünüm">
+            <button class="view-tab active" data-view="board">
+              <span data-icon="columns"></span>Pano</button
+            ><button class="view-tab" data-view="list">
+              <span data-icon="list"></span>Liste
+            </button>
+          </div>
+          <div class="toolbar-right">
+            <label class="search-wrap"
+              ><span data-icon="search"></span
+              ><input
+                id="search"
+                type="search"
+                placeholder="Görevlerde ara..."
+                aria-label="Görevlerde ara"
+              /><kbd>/</kbd></label
+            ><button
+              class="button filter-button"
+              id="filter-toggle"
+              aria-expanded="false"
+            >
+              <span data-icon="filter"></span>Filtrele<span
+                id="filter-count"
+              ></span>
+            </button>
+          </div>
+        </section>
+        <div class="filter-panel" id="filter-panel" hidden>
+          <label
+            >Öncelik<select id="priority-filter">
+              <option value="all">Tüm öncelikler</option>
+              <option value="high">Yüksek</option>
+              <option value="medium">Orta</option>
+              <option value="low">Düşük</option>
+            </select></label
+          ><label
+            >Etiket<select id="tag-filter">
+              <option value="all">Tüm etiketler</option>
+            </select></label
+          ><button class="text-button" id="clear-filters">
+            Filtreleri temizle</button
+          ><span id="result-count"></span>
+        </div>
+        <div id="assigned-banner" class="assigned-banner" hidden>
+          Bana atanan görevler gösteriliyor.<button
+            class="text-button"
+            id="show-all"
+          >
+            Tüm görevleri göster
+          </button>
+        </div>
+        <section class="board" id="board" aria-label="Kanban panosu"></section>
+        <section
+          class="list-view"
+          id="list-view"
+          hidden
+          aria-label="Görev listesi"
+        ></section>
+        <footer class="board-footer">
+          <span
+            ><span class="tiny-logo">m</span>Biraz düzen. Bolca ihtimal.</span
+          ><span
+            >Kartları taşı, fikirlerini ilerlet.<span class="footer-shortcuts"
+              ><kbd>N</kbd> yeni görev <kbd>/</kbd> ara</span
+            ></span
+          >
+        </footer>
+      </main>
+    </div>
+    <dialog id="task-dialog" class="task-dialog" aria-label="Görev detayları">
+      <form id="task-form">
+        <div class="dialog-topline">
+          <span class="dialog-eyebrow" id="task-dialog-eyebrow"
+            >YENİ BİR ADIM</span
+          ><button
+            type="button"
+            class="icon-button"
+            data-close
+            aria-label="Pencereyi kapat"
+          >
+            <span data-icon="x"></span>
+          </button>
+        </div>
+        <input type="hidden" id="task-id" /><label
+          class="field-label"
+          for="task-title"
+          >Görev başlığı</label
+        ><input
+          id="task-title"
+          class="title-input"
+          placeholder="Ne üzerinde çalışıyorsun?"
+          maxlength="160"
+          required
+        /><label class="field-label" for="task-description">Açıklama</label
+        ><textarea
+          id="task-description"
+          rows="3"
+          placeholder="Biraz bağlam, bir bağlantı ya da aklındaki detaylar..."
+          maxlength="5000"
+        ></textarea>
+        <div class="form-grid">
+          <label class="field-label"
+            >Durum<select id="task-status">
+              <option value="backlog">Fikirler</option>
+              <option value="todo">Yapılacak</option>
+              <option value="progress">Devam ediyor</option>
+              <option value="done">Tamamlandı</option>
+            </select></label
+          ><label class="field-label"
+            >Öncelik<select id="task-priority">
+              <option value="low">Düşük</option>
+              <option value="medium" selected>Orta</option>
+              <option value="high">Yüksek</option>
+            </select></label
+          ><label class="field-label"
+            >Bitiş tarihi<input type="date" id="task-date" /></label
+          ><label class="field-label"
+            >Atanan kişi<select id="task-assignee">
+              <option value="self">Ben</option>
+              <option value="none">Atanmamış</option>
+              <option value="Deniz">Deniz (örnek kişi)</option>
+              <option value="Ece">Ece (örnek kişi)</option>
+              <option value="Can">Can (örnek kişi)</option>
+            </select></label
+          >
+        </div>
+        <label class="field-label" for="task-tags"
+          >Etiketler <span class="field-hint">Virgülle ayır</span></label
+        ><input
+          id="task-tags"
+          placeholder="Tasarım, Ürün, Kişisel"
+          maxlength="160"
+        /><label class="field-label" for="task-cover">Kart kapağı</label
+        ><select id="task-cover">
+          <option value="">Kapak yok</option>
+          <option value="orbit">Yörünge · turuncu</option>
+          <option value="wave">Akış · lavanta</option>
+          <option value="garden">Filiz · yeşil</option>
+        </select>
+        <div class="checklist-heading">
+          <label class="field-label" for="checklist-input"
+            >Kontrol listesi</label
+          ><span id="checklist-progress"></span>
+        </div>
+        <div id="checklist-items"></div>
+        <div class="checklist-add">
+          <input
+            id="checklist-input"
+            placeholder="Küçük bir adım ekle..."
+            maxlength="200"
+          /><button
+            type="button"
+            class="button"
+            id="add-checklist-item"
+            aria-label="Kontrol listesine adım ekle"
+          >
+            <span data-icon="plus"></span>
+          </button>
+        </div>
+        <div class="dialog-actions">
+          <button
+            type="button"
+            class="text-button danger"
+            id="delete-task"
+            hidden
+          >
+            <span data-icon="trash"></span>Görevi sil</button
+          ><span class="action-spacer"></span
+          ><button type="button" class="button" data-close>Vazgeç</button
+          ><button type="submit" class="button primary">
+            Kaydet<span data-icon="arrow-right"></span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="board-dialog" aria-labelledby="board-form-title">
+      <form id="board-form">
+        <div class="dialog-topline">
+          <span class="dialog-eyebrow" id="board-dialog-heading"
+            >YENİ BİR ALAN</span
+          ><button
+            type="button"
+            class="icon-button"
+            data-close
+            aria-label="Pencereyi kapat"
+          >
+            <span data-icon="x"></span>
+          </button>
+        </div>
+        <h2 id="board-form-title">Fikirlerine yer aç.</h2>
+        <input type="hidden" id="editing-board-id" /><label
+          class="field-label"
+          for="board-name"
+          >Pano adı</label
+        ><input
+          id="board-name"
+          placeholder="Örn. Bir sonraki büyük fikir"
+          maxlength="70"
+          required
+        /><label class="field-label" for="board-desc">Kısa açıklama</label
+        ><textarea
+          id="board-desc"
+          rows="2"
+          maxlength="200"
+          placeholder="Bu panoda neler olacak?"
+        ></textarea
+        ><label class="field-label" for="board-color">Pano rengi</label
+        ><select id="board-color">
+          <option value="orange">Mandarin</option>
+          <option value="purple">Lavanta</option>
+          <option value="green">Adaçayı</option>
+          <option value="blue">Okyanus</option>
+        </select>
+        <div class="dialog-actions">
+          <button
+            type="button"
+            class="text-button danger"
+            id="delete-board"
+            hidden
+          >
+            Panoyu sil</button
+          ><span class="action-spacer"></span
+          ><button type="button" class="button" data-close>Vazgeç</button
+          ><button class="button primary" type="submit">Kaydet</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="help-dialog" aria-label="Mova kullanım rehberi">
+      <div class="dialog-topline">
+        <span class="dialog-eyebrow">MERHABA, MOVA</span
+        ><button class="icon-button" data-close aria-label="Pencereyi kapat">
+          <span data-icon="x"></span>
+        </button>
+      </div>
+      <span class="help-art">✳</span>
+      <h2>Bir fikrin varsa,<br />başlayacak yerin var.</h2>
+      <p>
+        Mova; kişisel hedefler, yaratıcı projeler ve günlük işler için sade bir
+        Kanban alanı.
+      </p>
+      <div class="help-step">
+        <span>01</span>
+        <p>
+          <strong>Fikrini yakala.</strong><br />Yeni görev oluştur, detayları ve
+          küçük adımları ekle.
+        </p>
+      </div>
+      <div class="help-step">
+        <span>02</span>
+        <p>
+          <strong>Akışı kendin belirle.</strong><br />Kartları sütunlar arasında
+          sürükle veya kartın durumunu değiştir.
+        </p>
+      </div>
+      <div class="help-step">
+        <span>03</span>
+        <p>
+          <strong>Kendi hızında ilerle.</strong><br />Ara, filtrele ve
+          tamamladıklarını gör.
+        </p>
+      </div>
+      <div class="privacy-note">
+        <span data-icon="lock"></span>
+        <p>
+          Bu sürümde veriler bu tarayıcıda saklanır. Hesap veya ortak
+          senkronizasyon yoktur; örnek kişiler demo içeriğidir. Yedeklemek için
+          üstteki indirme düğmesini kullan.
+        </p>
+      </div>
+      <button class="text-button" id="reset-demo">
+        Örnek çalışma alanını yeniden kur
+      </button>
+      <div class="dialog-actions">
+        <label class="button import-label" for="import-data"
+          ><span data-icon="upload"></span>Yedek yükle</label
+        ><input
+          type="file"
+          id="import-data"
+          accept="application/json,.json"
+          hidden
+        /><span class="action-spacer"></span
+        ><button class="button primary" data-close>
+          Başlayalım<span data-icon="arrow-right"></span>
+        </button>
+      </div>
+    </dialog>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+      <form method="dialog">
+        <div class="dialog-topline">
+          <span class="dialog-eyebrow">SON BİR KONTROL</span
+          ><button class="icon-button" value="cancel" aria-label="Vazgeç">
+            <span data-icon="x"></span>
+          </button>
+        </div>
+        <h2 id="confirm-title">Emin misin?</h2>
+        <p id="confirm-message"></p>
+        <div class="dialog-actions">
+          <span class="action-spacer"></span
+          ><button class="button" value="cancel">Vazgeç</button
+          ><button class="button danger-fill" value="confirm">
+            Evet, devam et
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

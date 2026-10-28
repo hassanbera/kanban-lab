@@ -1,0 +1,14 @@
+node_modules/
+**/node_modules/
+dist/
+apps/rota/.next/
+apps/rota/out/
+apps/katman/dist/
+apps/*/public/assets/showcase-switcher.css
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.sites-runtime/

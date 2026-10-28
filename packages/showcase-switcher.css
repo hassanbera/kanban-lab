@@ -1,0 +1,105 @@
+body {
+  padding-bottom: 78px !important;
+}
+.showcase-switcher {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 35;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px;
+  background: #fff;
+  color: #526076;
+  border: 1px solid #dce2e9;
+  border-radius: 11px;
+  box-shadow: 0 5px 24px #192a421c;
+  font:
+    500 12px/1.5 system-ui,
+    sans-serif;
+  max-width: calc(100% - 24px);
+}
+.showcase-switcher a {
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  padding: 8px 13px;
+  border-radius: 6px;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.showcase-switcher a:hover {
+  background: #f0f3f7;
+  color: #25344a;
+}
+.showcase-switcher a:focus-visible {
+  outline: 2px solid #6485b8;
+  outline-offset: 2px;
+}
+.showcase-separator {
+  height: 19px;
+  width: 1px;
+  background: #e0e5ec;
+  margin: 0 3px;
+}
+.showcase-switcher .showcase-home {
+  font-size: 11px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #718095;
+}
+.showcase-mova[aria-current="page"] {
+  background: #fce8e0;
+  color: #c45031;
+  font-weight: 600;
+}
+.showcase-rota[aria-current="page"] {
+  background: #e8effb;
+  color: #3268b9;
+  font-weight: 600;
+}
+.showcase-katman[aria-current="page"] {
+  background: #f2e7ee;
+  color: #80536f;
+  font-weight: 600;
+}
+[data-theme="dark"] .showcase-switcher,
+body.dark .showcase-switcher {
+  background: #252c36;
+  color: #c7d0dc;
+  border-color: #424b58;
+  box-shadow: 0 5px 24px #0004;
+}
+[data-theme="dark"] .showcase-switcher a:hover,
+body.dark .showcase-switcher a:hover {
+  background: #333d4b;
+  color: #edf3fa;
+}
+[data-theme="dark"] .showcase-separator,
+body.dark .showcase-separator {
+  background: #424b58;
+}
+@media (max-width: 520px) {
+  .showcase-switcher {
+    bottom: 12px;
+    padding: 5px;
+    gap: 2px;
+    font-size: 11px;
+  }
+  .showcase-switcher a {
+    padding: 8px 11px;
+  }
+  .showcase-switcher .showcase-home {
+    font-size: 10px;
+    padding: 8px;
+  }
+  .showcase-separator {
+    margin: 0 2px;
+  }
+}
